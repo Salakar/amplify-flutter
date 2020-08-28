@@ -14,4 +14,4 @@ class AmplifyAuthCognitoEventChannel {
   stopListeningToAuth() {
     stream.cancel();
   }
-} 
+}

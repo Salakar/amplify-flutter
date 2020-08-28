@@ -19,7 +19,8 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
 void main() {
-  const MethodChannel authChannel = MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel authChannel =
+      MethodChannel('com.amazonaws.amplify/auth_cognito');
   const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
   Amplify amplify = new Amplify();
@@ -31,14 +32,17 @@ void main() {
 
   setUp(() {
     authChannel.setMockMethodCallHandler((MethodCall methodCall) async {
-      switch(testCode) {
+      switch (testCode) {
         case 1:
           return {
             "isSignedIn": true,
           };
-          case 2:
-            return throw PlatformException(code: "AMPLIFY_EXCEPTION", message: "AMPLIFY_FETCH_SESSION_FAILED", details: {} );
-      } 
+        case 2:
+          return throw PlatformException(
+              code: "AMPLIFY_EXCEPTION",
+              message: "AMPLIFY_FETCH_SESSION_FAILED",
+              details: {});
+      }
     });
     coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       return true;
@@ -54,17 +58,20 @@ void main() {
     testCode = 1;
     await amplify.addPlugin(authPlugins: [auth]);
     await amplify.configure("{}");
-    expect(await Amplify.Auth.fetchAuthSession(), isInstanceOf<CognitoAuthSession>());
+    expect(await Amplify.Auth.fetchAuthSession(),
+        isInstanceOf<CognitoAuthSession>());
   });
 
   test('fetchSession thrown PlatFormException results in AuthError', () async {
     testCode = 2;
     AuthError err;
-   try {
-    AuthSessionRequest req = AuthSessionRequest();
-    expect(await Amplify.Auth.fetchAuthSession(), isInstanceOf<SignInResult>());   } on AuthError catch (e) {
+    try {
+      AuthSessionRequest req = AuthSessionRequest();
+      expect(
+          await Amplify.Auth.fetchAuthSession(), isInstanceOf<SignInResult>());
+    } on AuthError catch (e) {
       err = e;
-    } 
+    }
     expect(err.cause, "AMPLIFY_FETCH_SESSION_FAILED");
   });
 }

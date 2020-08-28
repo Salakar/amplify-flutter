@@ -34,8 +34,7 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test(
-      'configure should result in assertion error when null value is passed',
+  test('configure should result in assertion error when null value is passed',
       () async {
     amplify
         .configure(null)

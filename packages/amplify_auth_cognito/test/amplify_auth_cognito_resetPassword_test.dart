@@ -19,7 +19,8 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
 void main() {
-  const MethodChannel authChannel = MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel authChannel =
+      MethodChannel('com.amazonaws.amplify/auth_cognito');
   const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
   Amplify amplify = new Amplify();
@@ -34,12 +35,12 @@ void main() {
           "isPasswordReset": false,
           "nextStep": {
             "updateStep": "DONE",
-            "codeDeliveryDetails":  { "atttibuteName": "email" }
+            "codeDeliveryDetails": {"atttibuteName": "email"}
           }
         };
       } else {
         return true;
-      }     
+      }
     });
     coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       return true;
@@ -54,6 +55,7 @@ void main() {
   test('resetPassword request returns a ResetPasswordResult', () async {
     await amplify.addPlugin(authPlugins: [auth]);
     await amplify.configure("{}");
-    expect(await Amplify.Auth.resetPassword(username: 'testUser'), isInstanceOf<ResetPasswordResult>());
+    expect(await Amplify.Auth.resetPassword(username: 'testUser'),
+        isInstanceOf<ResetPasswordResult>());
   });
 }

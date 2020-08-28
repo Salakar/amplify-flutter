@@ -19,7 +19,8 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
 void main() {
-  const MethodChannel authChannel = MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel authChannel =
+      MethodChannel('com.amazonaws.amplify/auth_cognito');
   const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
   Amplify amplify = new Amplify();
@@ -33,7 +34,7 @@ void main() {
         return {};
       } else {
         return true;
-      }     
+      }
     });
     coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       return true;
@@ -48,6 +49,9 @@ void main() {
   test('confirmPassword request returns a UpdatePasswordResult', () async {
     await amplify.addPlugin(authPlugins: [auth]);
     await amplify.configure("{}");
-    expect(await Amplify.Auth.confirmPassword(username: "mel", newPassword: "1", confirmationCode: "2"), isInstanceOf<UpdatePasswordResult>());
+    expect(
+        await Amplify.Auth.confirmPassword(
+            username: "mel", newPassword: "1", confirmationCode: "2"),
+        isInstanceOf<UpdatePasswordResult>());
   });
 }

@@ -19,7 +19,8 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 
 void main() {
-  const MethodChannel authChannel = MethodChannel('com.amazonaws.amplify/auth_cognito');
+  const MethodChannel authChannel =
+      MethodChannel('com.amazonaws.amplify/auth_cognito');
   const MethodChannel coreChannel = MethodChannel('com.amazonaws.amplify/core');
 
   Amplify amplify = Amplify();
@@ -31,15 +32,15 @@ void main() {
 
   setUp(() {
     authChannel.setMockMethodCallHandler((MethodCall methodCall) async {
-      switch(testCode) {
+      switch (testCode) {
         case 1:
-          return {
-            "username": "testUser",
-            "userSub": "testSub"
-          };
-          case 2:
-            return throw PlatformException(code: "AMPLIFY_EXCEPTION", message: "AMPLIFY_GET_CURRENT_USER_FAILED", details: {});
-      } 
+          return {"username": "testUser", "userSub": "testSub"};
+        case 2:
+          return throw PlatformException(
+              code: "AMPLIFY_EXCEPTION",
+              message: "AMPLIFY_GET_CURRENT_USER_FAILED",
+              details: {});
+      }
     });
     coreChannel.setMockMethodCallHandler((MethodCall methodCall) async {
       return true;
@@ -61,11 +62,11 @@ void main() {
   test('PlatformException in getCurrentUser surfaces as AuthError', () async {
     testCode = 2;
     AuthError err;
-   try {
-    await Amplify.Auth.getCurrentUser();  
+    try {
+      await Amplify.Auth.getCurrentUser();
     } on AuthError catch (e) {
       err = e;
-    } 
+    }
     expect(err.cause, "AMPLIFY_GET_CURRENT_USER_FAILED");
   });
 }
